@@ -99,33 +99,72 @@
 /* Seal crack */
 @keyframes seal-crack {
   0% { transform: scale(1); opacity: 1; }
-  40% { transform: scale(1.08); opacity: 0.9; }
-  100% { transform: scale(0.95); opacity: 0.6; }
+  40% { transform: scale(1.12); opacity: 0.9; }
+  100% { transform: scale(0.9); opacity: 0.5; }
 }
 
 .animate-seal-crack {
-  animation: seal-crack 300ms ease-out forwards;
+  animation: seal-crack 400ms ease-out forwards;
 }
 
-/* Flap fold back */
+/* Envelope flap open - top V folds upward */
 @keyframes flap-open {
   0% { transform: rotateX(0deg); }
-  100% { transform: rotateX(-160deg); }
+  100% { transform: rotateX(180deg); }
 }
 
-.animate-flap-open {
-  animation: flap-open 700ms ease-in-out forwards;
-  transform-origin: bottom center;
+.envelope-flap-inner {
+  animation: flap-open 800ms ease-in-out forwards;
 }
 
-/* Envelope slide up */
-@keyframes envelope-exit {
-  0% { transform: translateY(0); opacity: 1; }
-  100% { transform: translateY(-110vh); opacity: 0; }
+/* Seal fade out */
+@keyframes seal-fade {
+  0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
 }
 
-.animate-envelope-exit {
-  animation: envelope-exit 600ms ease-in forwards;
+.envelope-seal-fade {
+  animation: seal-fade 400ms ease-out forwards;
+}
+
+/* Bottom flap slides down */
+@keyframes bottom-open {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(100%); }
+}
+
+.envelope-bottom-open {
+  animation: bottom-open 700ms ease-in-out forwards;
+}
+
+/* Left flap slides left */
+@keyframes left-open {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+.envelope-left-open {
+  animation: left-open 700ms ease-in-out forwards;
+}
+
+/* Right flap slides right */
+@keyframes right-open {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(100%); }
+}
+
+.envelope-right-open {
+  animation: right-open 700ms ease-in-out forwards;
+}
+
+/* Card reveal beneath */
+@keyframes card-reveal {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.envelope-card-reveal {
+  animation: card-reveal 600ms ease-out 400ms forwards;
 }
 
 /* Content reveal */
