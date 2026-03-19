@@ -37,6 +37,7 @@ const Index = () => {
     <div className="paper-grain">
       {!isOpen && <SplashScreen onOpen={handleOpen} />}
 
+
       {showContent && (
         <>
           <ProgressBar progress={scrollProgress} />
