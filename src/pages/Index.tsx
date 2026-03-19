@@ -1,16 +1,67 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState, useEffect, useRef } from "react";
+import SplashScreen from "@/components/SplashScreen";
+import AnnouncementScreen from "@/components/AnnouncementScreen";
+import EventDetailsScreen from "@/components/EventDetailsScreen";
+import RsvpScreen from "@/components/RsvpScreen";
+import ProgressBar from "@/components/ProgressBar";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const Index = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [showContent, setShowContent] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  const handleOpen = () => {
+    setIsOpen(true);
+    setTimeout(() => setShowContent(true), 100);
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!contentRef.current) return;
+      const el = contentRef.current;
+      const scrollTop = el.scrollTop;
+      const scrollHeight = el.scrollHeight - el.clientHeight;
+      const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+      setScrollProgress(progress);
+    };
+
+    const el = contentRef.current;
+    if (el) {
+      el.addEventListener("scroll", handleScroll);
+      return () => el.removeEventListener("scroll", handleScroll);
+    }
+  }, [showContent]);
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div className="paper-grain">
+      {!isOpen && <SplashScreen onOpen={handleOpen} />}
+
+      {showContent && (
+        <>
+          <ProgressBar progress={scrollProgress} />
+          <div
+            ref={contentRef}
+            className="h-screen overflow-y-auto scroll-smooth animate-content-reveal"
+          >
+            <AnnouncementScreen />
+            <EventDetailsScreen />
+            <RsvpScreen />
+
+            {/* Footer */}
+            <div className="py-12 text-center">
+              <p
+                className="font-body uppercase text-taupe"
+                style={{ fontSize: 9, letterSpacing: "0.3em" }}
+              >
+                Made with love
+              </p>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
