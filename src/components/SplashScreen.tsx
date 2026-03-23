@@ -7,18 +7,18 @@ interface SplashScreenProps {
 }
 
 const SplashScreen = ({ onOpen }: SplashScreenProps) => {
-  const [phase, setPhase] = useState<"idle" | "cracking" | "opening" | "exiting">("idle");
+  const [phase, setPhase] = useState<"idle" | "opening" | "exiting">("idle");
 
   const handleClick = () => {
     if (phase !== "idle") return;
     
-    setPhase("cracking");
+    setPhase("opening");
     
-    setTimeout(() => setPhase("opening"), 400);
+    // After flaps fully open, start exit
     setTimeout(() => {
       setPhase("exiting");
-      setTimeout(onOpen, 800);
-    }, 1200);
+      setTimeout(onOpen, 600);
+    }, 1000);
   };
 
   return (
@@ -26,7 +26,7 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
       className="fixed inset-0 z-50 cursor-pointer overflow-hidden"
       onClick={handleClick}
     >
-      {/* Full-screen envelope body with texture */}
+      {/* Envelope body background with texture */}
       <div
         className="absolute inset-0"
         style={{
@@ -36,178 +36,10 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
         }}
       />
 
-      {/* Top flap - V-shaped triangle covering top portion */}
+      {/* Inner card revealed beneath flaps */}
       <div
-        className={`absolute top-0 left-0 right-0 ${
-          phase === "opening" || phase === "exiting" ? "envelope-flap-open" : ""
-        }`}
-        style={{
-          height: "55vh",
-          transformOrigin: "top center",
-          zIndex: 10,
-          perspective: "1200px",
-        }}
-      >
-        <div
-          className={`w-full h-full ${
-            phase === "opening" || phase === "exiting" ? "envelope-flap-inner" : ""
-          }`}
-          style={{
-            transformOrigin: "top center",
-            transformStyle: "preserve-3d",
-          }}
-        >
-          <svg
-            viewBox="0 0 100 55"
-            preserveAspectRatio="none"
-            className="absolute inset-0 w-full h-full"
-          >
-            <defs>
-              <pattern id="flapTexture" patternUnits="objectBoundingBox" width="1" height="1">
-                <image
-                  href={envelopeTexture}
-                  width="100%"
-                  height="100%"
-                  preserveAspectRatio="xMidYMid slice"
-                />
-              </pattern>
-            </defs>
-            <polygon
-              points="0,0 100,0 50,55"
-              fill="url(#flapTexture)"
-            />
-            {/* Subtle shadow/crease line */}
-            <line x1="0" y1="0" x2="50" y2="55" stroke="hsl(30, 14%, 72%)" strokeWidth="0.15" />
-            <line x1="100" y1="0" x2="50" y2="55" stroke="hsl(30, 14%, 72%)" strokeWidth="0.15" />
-          </svg>
-          {/* Slightly darker overlay on flap for depth */}
-          <svg
-            viewBox="0 0 100 55"
-            preserveAspectRatio="none"
-            className="absolute inset-0 w-full h-full"
-          >
-            <polygon
-              points="0,0 100,0 50,55"
-              fill="hsl(30, 14%, 75%)"
-              opacity="0.15"
-            />
-          </svg>
-        </div>
-      </div>
-
-      {/* Bottom flap - inverted V */}
-      <div
-        className={`absolute bottom-0 left-0 right-0 ${
-          phase === "exiting" ? "envelope-bottom-open" : ""
-        }`}
-        style={{
-          height: "50vh",
-          zIndex: 5,
-        }}
-      >
-        <svg
-          viewBox="0 0 100 50"
-          preserveAspectRatio="none"
-          className="absolute inset-0 w-full h-full"
-        >
-          <defs>
-            <pattern id="bottomTexture" patternUnits="objectBoundingBox" width="1" height="1">
-              <image
-                href={envelopeTexture}
-                width="100%"
-                height="100%"
-                preserveAspectRatio="xMidYMid slice"
-              />
-            </pattern>
-          </defs>
-          <polygon
-            points="0,50 100,50 50,0"
-            fill="url(#bottomTexture)"
-          />
-          <polygon
-            points="0,50 100,50 50,0"
-            fill="hsl(34, 22%, 88%)"
-            opacity="0.2"
-          />
-          <line x1="0" y1="50" x2="50" y2="0" stroke="hsl(30, 14%, 78%)" strokeWidth="0.15" />
-          <line x1="100" y1="50" x2="50" y2="0" stroke="hsl(30, 14%, 78%)" strokeWidth="0.15" />
-        </svg>
-      </div>
-
-      {/* Left flap */}
-      <div
-        className={`absolute top-0 left-0 bottom-0 ${
-          phase === "exiting" ? "envelope-left-open" : ""
-        }`}
-        style={{
-          width: "30vw",
-          zIndex: 3,
-        }}
-      >
-        <svg
-          viewBox="0 0 30 100"
-          preserveAspectRatio="none"
-          className="absolute inset-0 w-full h-full"
-        >
-          <polygon
-            points="0,0 0,100 30,50"
-            fill="hsl(34, 22%, 90%)"
-            opacity="0.3"
-          />
-        </svg>
-      </div>
-
-      {/* Right flap */}
-      <div
-        className={`absolute top-0 right-0 bottom-0 ${
-          phase === "exiting" ? "envelope-right-open" : ""
-        }`}
-        style={{
-          width: "30vw",
-          zIndex: 3,
-        }}
-      >
-        <svg
-          viewBox="0 0 30 100"
-          preserveAspectRatio="none"
-          className="absolute inset-0 w-full h-full"
-        >
-          <polygon
-            points="30,0 30,100 0,50"
-            fill="hsl(34, 22%, 90%)"
-            opacity="0.3"
-          />
-        </svg>
-      </div>
-
-      {/* Wax Seal - centered at the meeting point of flaps */}
-      <div
-        className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 ${
-          phase === "cracking" ? "animate-seal-crack" : ""
-        } ${phase === "opening" || phase === "exiting" ? "envelope-seal-fade" : ""}`}
-      >
-        <img
-          src={waxSeal}
-          alt="Wax seal"
-          className="w-20 h-20 sm:w-24 sm:h-24 drop-shadow-lg"
-          draggable={false}
-        />
-      </div>
-
-      {/* "Touch to open" text */}
-      <p
-        className={`absolute bottom-12 left-1/2 -translate-x-1/2 z-20 font-display italic text-xs tracking-[0.3em] text-taupe animate-pulse-fade select-none ${
-          phase !== "idle" ? "opacity-0 transition-opacity duration-300" : ""
-        }`}
-        style={{ fontSize: 13 }}
-      >
-        touch to open
-      </p>
-
-      {/* Inner card (revealed when flap opens) */}
-      <div
-        className={`absolute inset-0 z-1 flex items-center justify-center bg-background ${
-          phase === "exiting" ? "envelope-card-reveal" : "opacity-0"
+        className={`absolute inset-0 z-[1] flex items-center justify-center bg-background transition-opacity duration-500 ${
+          phase === "opening" || phase === "exiting" ? "opacity-100" : "opacity-0"
         }`}
       >
         <div className="text-center">
@@ -219,6 +51,189 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
           </h1>
         </div>
       </div>
+
+      {/* TOP FLAP - triangle pointing down, folds upward */}
+      <div
+        className={`absolute top-0 left-0 right-0 z-[5] ${
+          phase === "opening" || phase === "exiting" ? "envelope-flap-top" : ""
+        }`}
+        style={{
+          height: "50%",
+          transformOrigin: "top center",
+          perspective: "1200px",
+        }}
+      >
+        <div
+          className={`w-full h-full ${
+            phase === "opening" || phase === "exiting" ? "envelope-flap-top-inner" : ""
+          }`}
+          style={{
+            transformOrigin: "top center",
+            transformStyle: "preserve-3d",
+          }}
+        >
+          <svg
+            viewBox="0 0 100 50"
+            preserveAspectRatio="none"
+            className="absolute inset-0 w-full h-full"
+          >
+            <defs>
+              <pattern id="topFlapTex" patternUnits="objectBoundingBox" width="1" height="1">
+                <image href={envelopeTexture} width="100%" height="100%" preserveAspectRatio="xMidYMid slice" />
+              </pattern>
+            </defs>
+            <polygon points="0,0 100,0 50,50" fill="url(#topFlapTex)" />
+            <polygon points="0,0 100,0 50,50" fill="hsl(34, 22%, 88%)" opacity="0.12" />
+            <line x1="0" y1="0" x2="50" y2="50" stroke="hsl(30, 14%, 78%)" strokeWidth="0.2" />
+            <line x1="100" y1="0" x2="50" y2="50" stroke="hsl(30, 14%, 78%)" strokeWidth="0.2" />
+          </svg>
+        </div>
+      </div>
+
+      {/* BOTTOM FLAP - triangle pointing up, folds downward */}
+      <div
+        className={`absolute bottom-0 left-0 right-0 z-[5] ${
+          phase === "opening" || phase === "exiting" ? "envelope-flap-bottom" : ""
+        }`}
+        style={{
+          height: "50%",
+          transformOrigin: "bottom center",
+          perspective: "1200px",
+        }}
+      >
+        <div
+          className={`w-full h-full ${
+            phase === "opening" || phase === "exiting" ? "envelope-flap-bottom-inner" : ""
+          }`}
+          style={{
+            transformOrigin: "bottom center",
+            transformStyle: "preserve-3d",
+          }}
+        >
+          <svg
+            viewBox="0 0 100 50"
+            preserveAspectRatio="none"
+            className="absolute inset-0 w-full h-full"
+          >
+            <defs>
+              <pattern id="bottomFlapTex" patternUnits="objectBoundingBox" width="1" height="1">
+                <image href={envelopeTexture} width="100%" height="100%" preserveAspectRatio="xMidYMid slice" />
+              </pattern>
+            </defs>
+            <polygon points="0,50 100,50 50,0" fill="url(#bottomFlapTex)" />
+            <polygon points="0,50 100,50 50,0" fill="hsl(30, 14%, 82%)" opacity="0.15" />
+            <line x1="0" y1="50" x2="50" y2="0" stroke="hsl(30, 14%, 78%)" strokeWidth="0.2" />
+            <line x1="100" y1="50" x2="50" y2="0" stroke="hsl(30, 14%, 78%)" strokeWidth="0.2" />
+          </svg>
+        </div>
+      </div>
+
+      {/* LEFT FLAP - triangle pointing right, folds left */}
+      <div
+        className={`absolute top-0 left-0 bottom-0 z-[4] ${
+          phase === "opening" || phase === "exiting" ? "envelope-flap-left" : ""
+        }`}
+        style={{
+          width: "50%",
+          transformOrigin: "left center",
+          perspective: "1200px",
+        }}
+      >
+        <div
+          className={`w-full h-full ${
+            phase === "opening" || phase === "exiting" ? "envelope-flap-left-inner" : ""
+          }`}
+          style={{
+            transformOrigin: "left center",
+            transformStyle: "preserve-3d",
+          }}
+        >
+          <svg
+            viewBox="0 0 50 100"
+            preserveAspectRatio="none"
+            className="absolute inset-0 w-full h-full"
+          >
+            <defs>
+              <pattern id="leftFlapTex" patternUnits="objectBoundingBox" width="1" height="1">
+                <image href={envelopeTexture} width="100%" height="100%" preserveAspectRatio="xMidYMid slice" />
+              </pattern>
+            </defs>
+            <polygon points="0,0 0,100 50,50" fill="url(#leftFlapTex)" />
+            <polygon points="0,0 0,100 50,50" fill="hsl(30, 14%, 85%)" opacity="0.18" />
+            <line x1="0" y1="0" x2="50" y2="50" stroke="hsl(30, 14%, 78%)" strokeWidth="0.2" />
+            <line x1="0" y1="100" x2="50" y2="50" stroke="hsl(30, 14%, 78%)" strokeWidth="0.2" />
+          </svg>
+        </div>
+      </div>
+
+      {/* RIGHT FLAP - triangle pointing left, folds right */}
+      <div
+        className={`absolute top-0 right-0 bottom-0 z-[4] ${
+          phase === "opening" || phase === "exiting" ? "envelope-flap-right" : ""
+        }`}
+        style={{
+          width: "50%",
+          transformOrigin: "right center",
+          perspective: "1200px",
+        }}
+      >
+        <div
+          className={`w-full h-full ${
+            phase === "opening" || phase === "exiting" ? "envelope-flap-right-inner" : ""
+          }`}
+          style={{
+            transformOrigin: "right center",
+            transformStyle: "preserve-3d",
+          }}
+        >
+          <svg
+            viewBox="0 0 50 100"
+            preserveAspectRatio="none"
+            className="absolute inset-0 w-full h-full"
+          >
+            <defs>
+              <pattern id="rightFlapTex" patternUnits="objectBoundingBox" width="1" height="1">
+                <image href={envelopeTexture} width="100%" height="100%" preserveAspectRatio="xMidYMid slice" />
+              </pattern>
+            </defs>
+            <polygon points="50,0 50,100 0,50" fill="url(#rightFlapTex)" />
+            <polygon points="50,0 50,100 0,50" fill="hsl(30, 14%, 85%)" opacity="0.18" />
+            <line x1="50" y1="0" x2="0" y2="50" stroke="hsl(30, 14%, 78%)" strokeWidth="0.2" />
+            <line x1="50" y1="100" x2="0" y2="50" stroke="hsl(30, 14%, 78%)" strokeWidth="0.2" />
+          </svg>
+        </div>
+      </div>
+
+      {/* Wax seal at the center intersection */}
+      <div
+        className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[10] transition-all ${
+          phase === "opening" || phase === "exiting"
+            ? "opacity-0 scale-75 duration-400"
+            : "duration-0"
+        }`}
+      >
+        <img
+          src={waxSeal}
+          alt="Wax seal"
+          className="w-20 h-20 sm:w-24 sm:h-24 drop-shadow-lg"
+          draggable={false}
+        />
+      </div>
+
+      {/* "Touch to open" text */}
+      <p
+        className={`absolute bottom-12 left-1/2 -translate-x-1/2 z-[10] font-display italic text-xs tracking-[0.3em] text-taupe animate-pulse-fade select-none ${
+          phase !== "idle" ? "opacity-0 transition-opacity duration-300" : ""
+        }`}
+        style={{ fontSize: 13 }}
+      >
+        touch to open
+      </p>
+
+      {/* Overall fade out for exit */}
+      {phase === "exiting" && (
+        <div className="absolute inset-0 z-[20] bg-background envelope-fade-in" />
+      )}
     </div>
   );
 };
