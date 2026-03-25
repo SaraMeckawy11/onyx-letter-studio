@@ -192,7 +192,7 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
           phase === "seal" ? "animate-seal-crack" : ""
         } ${phase === "flap" || phase === "fading" ? "envelope-seal-vanish" : ""}`}
         style={{
-          top: "57%",
+          top: "38%",
           transform: "translate(-50%, -50%)",
         }}
       >
