@@ -48,14 +48,14 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
         viewBox="0 0 100 100"
         preserveAspectRatio="none"
       >
-        {/* Left crease from top-left to center */}
-        <line x1="0" y1="0" x2="50" y2="45" stroke="hsl(30, 14%, 82%)" strokeWidth="0.12" />
-        {/* Right crease from top-right to center */}
-        <line x1="100" y1="0" x2="50" y2="45" stroke="hsl(30, 14%, 82%)" strokeWidth="0.12" />
+        {/* Left crease from top-left to center-bottom */}
+        <line x1="0" y1="0" x2="50" y2="60" stroke="hsl(30, 14%, 82%)" strokeWidth="0.12" />
+        {/* Right crease from top-right to center-bottom */}
+        <line x1="100" y1="0" x2="50" y2="60" stroke="hsl(30, 14%, 82%)" strokeWidth="0.12" />
         {/* Bottom-left crease */}
-        <line x1="0" y1="100" x2="50" y2="55" stroke="hsl(30, 14%, 80%)" strokeWidth="0.08" />
+        <line x1="0" y1="100" x2="50" y2="60" stroke="hsl(30, 14%, 80%)" strokeWidth="0.08" />
         {/* Bottom-right crease */}
-        <line x1="100" y1="100" x2="50" y2="55" stroke="hsl(30, 14%, 80%)" strokeWidth="0.08" />
+        <line x1="100" y1="100" x2="50" y2="60" stroke="hsl(30, 14%, 80%)" strokeWidth="0.08" />
       </svg>
 
       {/* Subtle shadow/depth along the bottom fold area */}
