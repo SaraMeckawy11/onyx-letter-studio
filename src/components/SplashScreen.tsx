@@ -19,7 +19,7 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
 
   // Flap triangle path — wide angle, rounded bottom tip, goes to ~78% height
   const flapPath = "M0,0 L100,0 L56,38 Q50,44 44,38 L0,0 Z";
-  const flapHeight = "80%";
+  const flapHeight = "45%";
 
   return (
     <div
