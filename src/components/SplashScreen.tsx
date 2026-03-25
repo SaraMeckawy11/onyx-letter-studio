@@ -18,8 +18,8 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
   };
 
   // Flap triangle path — wide angle, rounded bottom tip, goes to ~78% height
-  const flapPath = "M0,0 L100,0 L58,74 Q50,80 42,74 L0,0 Z";
-  const flapHeight = "80%";
+  const flapPath = "M0,0 L100,0 L56,38 Q50,44 44,38 L0,0 Z";
+  const flapHeight = "45%";
 
   return (
     <div
@@ -44,10 +44,10 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
         viewBox="0 0 100 100"
         preserveAspectRatio="none"
       >
-        <line x1="0" y1="0" x2="50" y2="62" stroke="hsl(30, 14%, 80%)" strokeWidth="0.15" />
-        <line x1="100" y1="0" x2="50" y2="62" stroke="hsl(30, 14%, 80%)" strokeWidth="0.15" />
-        <line x1="0" y1="100" x2="50" y2="62" stroke="hsl(30, 14%, 78%)" strokeWidth="0.1" />
-        <line x1="100" y1="100" x2="50" y2="62" stroke="hsl(30, 14%, 78%)" strokeWidth="0.1" />
+        <line x1="0" y1="0" x2="50" y2="40" stroke="hsl(30, 14%, 78%)" strokeWidth="0.18" />
+        <line x1="100" y1="0" x2="50" y2="40" stroke="hsl(30, 14%, 78%)" strokeWidth="0.18" />
+        <line x1="0" y1="100" x2="50" y2="40" stroke="hsl(30, 14%, 76%)" strokeWidth="0.12" />
+        <line x1="100" y1="100" x2="50" y2="40" stroke="hsl(30, 14%, 76%)" strokeWidth="0.12" />
       </svg>
 
       {/* HEAVY shadow under flap crease lines — realistic depth */}
@@ -56,54 +56,51 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
         style={{ height: flapHeight }}
       >
         <svg
-          viewBox="0 0 100 80"
+          viewBox="0 0 100 45"
           preserveAspectRatio="none"
           className="absolute inset-0 w-full h-full"
         >
           <defs>
             <linearGradient id="leftShadow" x1="0" y1="0" x2="0.6" y2="1">
-              <stop offset="0%" stopColor="hsl(30, 10%, 10%)" stopOpacity="0.18" />
-              <stop offset="60%" stopColor="hsl(30, 10%, 10%)" stopOpacity="0.06" />
+              <stop offset="0%" stopColor="hsl(30, 10%, 5%)" stopOpacity="0.35" />
+              <stop offset="40%" stopColor="hsl(30, 10%, 8%)" stopOpacity="0.2" />
               <stop offset="100%" stopColor="transparent" stopOpacity="0" />
             </linearGradient>
             <linearGradient id="rightShadow" x1="1" y1="0" x2="0.4" y2="1">
-              <stop offset="0%" stopColor="hsl(30, 10%, 10%)" stopOpacity="0.18" />
-              <stop offset="60%" stopColor="hsl(30, 10%, 10%)" stopOpacity="0.06" />
+              <stop offset="0%" stopColor="hsl(30, 10%, 5%)" stopOpacity="0.35" />
+              <stop offset="40%" stopColor="hsl(30, 10%, 8%)" stopOpacity="0.2" />
               <stop offset="100%" stopColor="transparent" stopOpacity="0" />
             </linearGradient>
             <filter id="heavyShadowBlur">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="1.8" />
+              <feGaussianBlur in="SourceGraphic" stdDeviation="2.2" />
             </filter>
             <filter id="tipShadowBlur">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" />
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" />
             </filter>
           </defs>
-          {/* Left crease shadow — thick */}
-          <polygon points="0,0 50,76 0,8" fill="url(#leftShadow)" filter="url(#heavyShadowBlur)" />
-          <polygon points="0,0 50,76 0,6" fill="url(#leftShadow)" filter="url(#heavyShadowBlur)" opacity="0.6" />
-          {/* Right crease shadow — thick */}
-          <polygon points="100,0 50,76 100,8" fill="url(#rightShadow)" filter="url(#heavyShadowBlur)" />
-          <polygon points="100,0 50,76 100,6" fill="url(#rightShadow)" filter="url(#heavyShadowBlur)" opacity="0.6" />
+          {/* Left crease shadow — very thick */}
+          <polygon points="0,0 50,40 0,10" fill="url(#leftShadow)" filter="url(#heavyShadowBlur)" />
+          <polygon points="0,0 50,40 0,7" fill="url(#leftShadow)" filter="url(#heavyShadowBlur)" opacity="0.7" />
+          <polygon points="0,2 50,40 0,5" fill="url(#leftShadow)" filter="url(#heavyShadowBlur)" opacity="0.4" />
+          {/* Right crease shadow — very thick */}
+          <polygon points="100,0 50,40 100,10" fill="url(#rightShadow)" filter="url(#heavyShadowBlur)" />
+          <polygon points="100,0 50,40 100,7" fill="url(#rightShadow)" filter="url(#heavyShadowBlur)" opacity="0.7" />
+          <polygon points="100,2 50,40 100,5" fill="url(#rightShadow)" filter="url(#heavyShadowBlur)" opacity="0.4" />
           {/* Dark shadow pooling at the tip */}
-          <ellipse cx="50" cy="76" rx="12" ry="4" fill="hsl(30, 10%, 10%)" opacity="0.12" filter="url(#tipShadowBlur)" />
+          <ellipse cx="50" cy="40" rx="16" ry="5" fill="hsl(30, 8%, 8%)" opacity="0.2" filter="url(#tipShadowBlur)" />
         </svg>
       </div>
 
-      {/* Additional shadow band along the crease for extra realism */}
+      {/* Additional shadow lines along creases */}
       <div
         className="absolute left-0 right-0 z-[4] pointer-events-none"
         style={{ top: "0", height: flapHeight }}
       >
-        <svg viewBox="0 0 100 80" preserveAspectRatio="none" className="absolute inset-0 w-full h-full">
-          <defs>
-            <linearGradient id="creaseEdgeShadow" x1="0.5" y1="0.8" x2="0.5" y2="1">
-              <stop offset="0%" stopColor="hsl(30, 8%, 12%)" stopOpacity="0.15" />
-              <stop offset="100%" stopColor="transparent" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-          {/* Shadow line along left crease */}
-          <line x1="1" y1="1" x2="50" y2="76" stroke="hsl(30, 8%, 25%)" strokeWidth="0.6" opacity="0.2" />
-          <line x1="99" y1="1" x2="50" y2="76" stroke="hsl(30, 8%, 25%)" strokeWidth="0.6" opacity="0.2" />
+        <svg viewBox="0 0 100 45" preserveAspectRatio="none" className="absolute inset-0 w-full h-full">
+          <line x1="1" y1="1" x2="50" y2="40" stroke="hsl(30, 8%, 20%)" strokeWidth="0.8" opacity="0.3" />
+          <line x1="99" y1="1" x2="50" y2="40" stroke="hsl(30, 8%, 20%)" strokeWidth="0.8" opacity="0.3" />
+          <line x1="2" y1="2" x2="50" y2="40" stroke="hsl(30, 8%, 15%)" strokeWidth="0.4" opacity="0.15" />
+          <line x1="98" y1="2" x2="50" y2="40" stroke="hsl(30, 8%, 15%)" strokeWidth="0.4" opacity="0.15" />
         </svg>
       </div>
 
@@ -127,7 +124,7 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
           {/* Flap front face */}
           <div className="absolute inset-0" style={{ backfaceVisibility: "hidden" }}>
             <svg
-              viewBox="0 0 100 80"
+              viewBox="0 0 100 45"
               preserveAspectRatio="none"
               className="absolute inset-0 w-full h-full"
             >
@@ -144,8 +141,8 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
               <path d={flapPath} fill="url(#flapTex)" />
               <path d={flapPath} fill="hsl(34, 20%, 80%)" opacity="0.1" />
               {/* Crease lines on flap */}
-              <line x1="0" y1="0" x2="50" y2="76" stroke="hsl(30, 14%, 74%)" strokeWidth="0.2" />
-              <line x1="100" y1="0" x2="50" y2="76" stroke="hsl(30, 14%, 74%)" strokeWidth="0.2" />
+              <line x1="0" y1="0" x2="50" y2="40" stroke="hsl(30, 14%, 72%)" strokeWidth="0.25" />
+              <line x1="100" y1="0" x2="50" y2="40" stroke="hsl(30, 14%, 72%)" strokeWidth="0.25" />
             </svg>
           </div>
 
@@ -158,7 +155,7 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
             }}
           >
             <svg
-              viewBox="0 0 100 80"
+              viewBox="0 0 100 45"
               preserveAspectRatio="none"
               className="absolute inset-0 w-full h-full"
             >
@@ -173,7 +170,7 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
             }`}
           >
             <svg
-              viewBox="0 0 100 80"
+              viewBox="0 0 100 45"
               preserveAspectRatio="none"
               className="absolute inset-0 w-full h-full"
             >
@@ -195,7 +192,7 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
           phase === "seal" ? "animate-seal-crack" : ""
         } ${phase === "flap" || phase === "fading" ? "envelope-seal-vanish" : ""}`}
         style={{
-          top: "57%",
+          top: "38%",
           transform: "translate(-50%, -50%)",
         }}
       >
