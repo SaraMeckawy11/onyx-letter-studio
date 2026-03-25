@@ -137,7 +137,7 @@
 }
 
 .envelope-entire-fade {
-  animation: entire-fade 1000ms ease-in-out forwards;
+  animation: entire-fade 1200ms ease-in-out forwards;
 }
 
 /* Content reveal */
