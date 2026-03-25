@@ -141,8 +141,8 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
               <path d={flapPath} fill="url(#flapTex)" />
               <path d={flapPath} fill="hsl(34, 20%, 80%)" opacity="0.1" />
               {/* Crease lines on flap */}
-              <line x1="0" y1="0" x2="50" y2="76" stroke="hsl(30, 14%, 74%)" strokeWidth="0.2" />
-              <line x1="100" y1="0" x2="50" y2="76" stroke="hsl(30, 14%, 74%)" strokeWidth="0.2" />
+              <line x1="0" y1="0" x2="50" y2="40" stroke="hsl(30, 14%, 72%)" strokeWidth="0.25" />
+              <line x1="100" y1="0" x2="50" y2="40" stroke="hsl(30, 14%, 72%)" strokeWidth="0.25" />
             </svg>
           </div>
 
