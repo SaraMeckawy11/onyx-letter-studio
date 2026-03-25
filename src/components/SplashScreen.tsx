@@ -170,7 +170,7 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
             }`}
           >
             <svg
-              viewBox="0 0 100 80"
+              viewBox="0 0 100 45"
               preserveAspectRatio="none"
               className="absolute inset-0 w-full h-full"
             >
