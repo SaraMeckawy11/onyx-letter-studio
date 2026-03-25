@@ -44,10 +44,10 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
         viewBox="0 0 100 100"
         preserveAspectRatio="none"
       >
-        <line x1="0" y1="0" x2="50" y2="62" stroke="hsl(30, 14%, 80%)" strokeWidth="0.15" />
-        <line x1="100" y1="0" x2="50" y2="62" stroke="hsl(30, 14%, 80%)" strokeWidth="0.15" />
-        <line x1="0" y1="100" x2="50" y2="62" stroke="hsl(30, 14%, 78%)" strokeWidth="0.1" />
-        <line x1="100" y1="100" x2="50" y2="62" stroke="hsl(30, 14%, 78%)" strokeWidth="0.1" />
+        <line x1="0" y1="0" x2="50" y2="40" stroke="hsl(30, 14%, 78%)" strokeWidth="0.18" />
+        <line x1="100" y1="0" x2="50" y2="40" stroke="hsl(30, 14%, 78%)" strokeWidth="0.18" />
+        <line x1="0" y1="100" x2="50" y2="40" stroke="hsl(30, 14%, 76%)" strokeWidth="0.12" />
+        <line x1="100" y1="100" x2="50" y2="40" stroke="hsl(30, 14%, 76%)" strokeWidth="0.12" />
       </svg>
 
       {/* HEAVY shadow under flap crease lines — realistic depth */}
