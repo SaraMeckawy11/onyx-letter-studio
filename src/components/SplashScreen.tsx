@@ -12,112 +12,103 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
   const handleClick = () => {
     if (phase !== "idle") return;
     setPhase("seal");
-    setTimeout(() => setPhase("flap"), 400);
-    setTimeout(() => setPhase("fading"), 2200);
-    setTimeout(onOpen, 3000);
+    setTimeout(() => setPhase("flap"), 500);
+    setTimeout(() => {
+      setPhase("fading");
+      onOpen();
+    }, 2800);
   };
+
+  const flapPath = "M0,0 L100,0 L56,38 Q50,44 44,38 L0,0 Z";
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-background cursor-pointer transition-opacity duration-700 ${
-        phase === "fading" ? "opacity-0" : "opacity-100"
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-background cursor-pointer ${
+        phase === "fading" ? "envelope-entire-fade" : ""
       }`}
       onClick={handleClick}
     >
-      {/* Envelope container */}
+      {/* Envelope container — realistic proportions */}
       <div
-        className="relative"
+        className="relative shadow-2xl"
         style={{
           width: "min(85vw, 420px)",
           height: "min(55vw, 280px)",
-          borderRadius: "3px",
-          boxShadow: "0 8px 40px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.12)",
+          borderRadius: "4px",
+          overflow: "hidden",
         }}
       >
         {/* Envelope body texture */}
         <div
-          className="absolute inset-0 rounded-[3px] overflow-hidden"
+          className="absolute inset-0"
           style={{
             backgroundImage: `url(${envelopeTexture})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
+            border: "1px solid hsl(30, 18%, 82%)",
+            borderRadius: "4px",
           }}
         />
 
-        {/* Four fold triangles with natural shadows using CSS */}
-        {/* Left triangle */}
-        <div className="absolute inset-0 overflow-hidden rounded-[3px] pointer-events-none z-[2]">
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              background: "linear-gradient(to right, rgba(0,0,0,0.06) 0%, transparent 50%)",
-            }}
-          />
-          {/* Right side shadow */}
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              right: 0,
-              width: "100%",
-              height: "100%",
-              background: "linear-gradient(to left, rgba(0,0,0,0.06) 0%, transparent 50%)",
-            }}
-          />
-          {/* Bottom fold subtle darkening */}
-          <div
-            style={{
-              position: "absolute",
-              bottom: 0,
-              left: 0,
-              width: "100%",
-              height: "40%",
-              background: "linear-gradient(to top, rgba(0,0,0,0.04) 0%, transparent 100%)",
-            }}
-          />
-        </div>
-
-        {/* Crease lines - thin, natural */}
+        {/* Body crease lines */}
         <svg
-          className="absolute inset-0 w-full h-full z-[3] pointer-events-none"
-          viewBox="0 0 100 65"
+          className="absolute inset-0 w-full h-full z-[2] pointer-events-none"
+          viewBox="0 0 100 100"
           preserveAspectRatio="none"
         >
-          {/* Top flap crease lines */}
-          <line x1="0" y1="0" x2="50" y2="50" stroke="rgba(0,0,0,0.08)" strokeWidth="0.3" />
-          <line x1="100" y1="0" x2="50" y2="50" stroke="rgba(0,0,0,0.08)" strokeWidth="0.3" />
-          {/* Bottom flap lines */}
-          <line x1="0" y1="65" x2="50" y2="50" stroke="rgba(0,0,0,0.05)" strokeWidth="0.25" />
-          <line x1="100" y1="65" x2="50" y2="50" stroke="rgba(0,0,0,0.05)" strokeWidth="0.25" />
-          {/* Subtle shadow next to crease lines */}
-          <line x1="0.5" y1="0.5" x2="50" y2="50" stroke="rgba(0,0,0,0.04)" strokeWidth="1.5" />
-          <line x1="99.5" y1="0.5" x2="50" y2="50" stroke="rgba(0,0,0,0.04)" strokeWidth="1.5" />
+          <line x1="0" y1="0" x2="50" y2="55" stroke="hsl(30, 14%, 78%)" strokeWidth="0.2" />
+          <line x1="100" y1="0" x2="50" y2="55" stroke="hsl(30, 14%, 78%)" strokeWidth="0.2" />
+          <line x1="0" y1="100" x2="50" y2="55" stroke="hsl(30, 14%, 76%)" strokeWidth="0.15" />
+          <line x1="100" y1="100" x2="50" y2="55" stroke="hsl(30, 14%, 76%)" strokeWidth="0.15" />
         </svg>
 
-        {/* Center shadow where folds meet */}
+        {/* Heavy crease shadows */}
+        <div className="absolute inset-0 z-[3] pointer-events-none">
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 w-full h-full">
+            <defs>
+              <linearGradient id="leftShadow" x1="0" y1="0" x2="0.6" y2="0.7">
+                <stop offset="0%" stopColor="hsl(30, 10%, 5%)" stopOpacity="0.3" />
+                <stop offset="50%" stopColor="hsl(30, 10%, 8%)" stopOpacity="0.1" />
+                <stop offset="100%" stopColor="transparent" stopOpacity="0" />
+              </linearGradient>
+              <linearGradient id="rightShadow" x1="1" y1="0" x2="0.4" y2="0.7">
+                <stop offset="0%" stopColor="hsl(30, 10%, 5%)" stopOpacity="0.3" />
+                <stop offset="50%" stopColor="hsl(30, 10%, 8%)" stopOpacity="0.1" />
+                <stop offset="100%" stopColor="transparent" stopOpacity="0" />
+              </linearGradient>
+              <filter id="heavyShadowBlur">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
+              </filter>
+              <filter id="tipShadowBlur">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="3" />
+              </filter>
+            </defs>
+            <polygon points="0,0 50,55 0,10" fill="url(#leftShadow)" filter="url(#heavyShadowBlur)" />
+            <polygon points="0,0 50,55 0,6" fill="url(#leftShadow)" filter="url(#heavyShadowBlur)" opacity="0.5" />
+            <polygon points="100,0 50,55 100,10" fill="url(#rightShadow)" filter="url(#heavyShadowBlur)" />
+            <polygon points="100,0 50,55 100,6" fill="url(#rightShadow)" filter="url(#heavyShadowBlur)" opacity="0.5" />
+            <ellipse cx="50" cy="55" rx="14" ry="5" fill="hsl(30, 8%, 8%)" opacity="0.18" filter="url(#tipShadowBlur)" />
+            {/* Crease shadow lines */}
+            <line x1="1" y1="1" x2="50" y2="55" stroke="hsl(30, 8%, 18%)" strokeWidth="0.7" opacity="0.25" />
+            <line x1="99" y1="1" x2="50" y2="55" stroke="hsl(30, 8%, 18%)" strokeWidth="0.7" opacity="0.25" />
+          </svg>
+        </div>
+
+        {/* Bottom fold shadow */}
         <div
-          className="absolute z-[4] pointer-events-none"
+          className="absolute bottom-0 left-0 right-0 z-[2] pointer-events-none"
           style={{
-            top: "72%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "30px",
-            height: "14px",
-            borderRadius: "50%",
-            background: "radial-gradient(ellipse, rgba(0,0,0,0.12) 0%, transparent 70%)",
+            height: "50%",
+            background: "linear-gradient(to top, hsl(34, 18%, 82%, 0.2) 0%, transparent 100%)",
           }}
         />
 
-        {/* TOP FLAP - the triangle that opens */}
+        {/* TOP FLAP */}
         <div
           className="absolute top-0 left-0 right-0 z-[6]"
           style={{
-            height: "78%",
-            perspective: "600px",
+            height: "55%",
+            perspective: "800px",
           }}
         >
           <div
@@ -129,43 +120,46 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
               transformStyle: "preserve-3d",
             }}
           >
-            {/* Flap front face */}
+            {/* Flap front */}
             <div className="absolute inset-0" style={{ backfaceVisibility: "hidden" }}>
-              <svg viewBox="0 0 100 78" preserveAspectRatio="none" className="absolute inset-0 w-full h-full">
+              <svg viewBox="0 0 100 55" preserveAspectRatio="none" className="absolute inset-0 w-full h-full">
                 <defs>
                   <pattern id="flapTex" patternUnits="objectBoundingBox" width="1" height="1">
                     <image href={envelopeTexture} width="100%" height="100%" preserveAspectRatio="xMidYMid slice" />
                   </pattern>
-                  <linearGradient id="flapShading" x1="0.5" y1="0" x2="0.5" y2="1">
-                    <stop offset="0%" stopColor="rgba(0,0,0,0)" />
-                    <stop offset="80%" stopColor="rgba(0,0,0,0.05)" />
-                    <stop offset="100%" stopColor="rgba(0,0,0,0.08)" />
-                  </linearGradient>
                 </defs>
-                <path d="M0,0 L100,0 L54,72 Q50,78 46,72 L0,0 Z" fill="url(#flapTex)" />
-                <path d="M0,0 L100,0 L54,72 Q50,78 46,72 L0,0 Z" fill="url(#flapShading)" />
+                <path d={flapPath} fill="url(#flapTex)" />
+                <path d={flapPath} fill="hsl(34, 20%, 78%)" opacity="0.1" />
+                <line x1="0" y1="0" x2="50" y2="40" stroke="hsl(30, 14%, 70%)" strokeWidth="0.3" />
+                <line x1="100" y1="0" x2="50" y2="40" stroke="hsl(30, 14%, 70%)" strokeWidth="0.3" />
               </svg>
             </div>
 
-            {/* Flap back face */}
+            {/* Flap back */}
             <div className="absolute inset-0" style={{ backfaceVisibility: "hidden", transform: "rotateX(180deg)" }}>
-              <svg viewBox="0 0 100 78" preserveAspectRatio="none" className="absolute inset-0 w-full h-full">
-                <path d="M0,0 L100,0 L54,72 Q50,78 46,72 L0,0 Z" fill="hsl(34, 22%, 88%)" />
+              <svg viewBox="0 0 100 55" preserveAspectRatio="none" className="absolute inset-0 w-full h-full">
+                <path d={flapPath} fill="hsl(34, 22%, 86%)" />
+              </svg>
+            </div>
+
+            {/* Shadow during opening */}
+            <div
+              className={`absolute inset-0 pointer-events-none transition-opacity duration-[1500ms] ${
+                phase === "flap" || phase === "fading" ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              <svg viewBox="0 0 100 55" preserveAspectRatio="none" className="absolute inset-0 w-full h-full">
+                <defs>
+                  <linearGradient id="openShadow" x1="0.5" y1="0" x2="0.5" y2="0.6">
+                    <stop offset="0%" stopColor="hsl(30, 10%, 10%)" stopOpacity="0.3" />
+                    <stop offset="100%" stopColor="transparent" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+                <rect x="0" y="0" width="100" height="30" fill="url(#openShadow)" />
               </svg>
             </div>
           </div>
         </div>
-
-        {/* Shadow cast by flap when opening */}
-        <div
-          className={`absolute top-0 left-0 right-0 z-[5] pointer-events-none transition-opacity duration-1000 ${
-            phase === "flap" || phase === "fading" ? "opacity-100" : "opacity-0"
-          }`}
-          style={{
-            height: "40%",
-            background: "linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, transparent 100%)",
-          }}
-        />
 
         {/* Wax seal */}
         <div
@@ -173,17 +167,14 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
             phase === "seal" ? "animate-seal-crack" : ""
           } ${phase === "flap" || phase === "fading" ? "envelope-seal-vanish" : ""}`}
           style={{
-            top: "55%",
+            top: "48%",
             transform: "translate(-50%, -50%)",
           }}
         >
           <img
             src={waxSeal}
             alt="Wax seal"
-            className="w-16 h-16 sm:w-20 sm:h-20"
-            style={{
-              filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.3))",
-            }}
+            className="w-20 h-20 sm:w-24 sm:h-24 drop-shadow-xl"
             draggable={false}
           />
         </div>
