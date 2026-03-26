@@ -12,8 +12,8 @@ const Index = () => {
   const contentRef = useRef<HTMLDivElement>(null);
 
   const handleOpen = () => {
-    setIsOpen(true);
-    setTimeout(() => setShowContent(true), 100);
+    setShowContent(true);
+    setTimeout(() => setIsOpen(true), 1200);
   };
 
   useEffect(() => {
