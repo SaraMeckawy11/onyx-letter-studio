@@ -1,9 +1,15 @@
 import { useState, useEffect, useRef } from "react";
 import SplashScreen from "@/components/SplashScreen";
-import AnnouncementScreen from "@/components/AnnouncementScreen";
-import EventDetailsScreen from "@/components/EventDetailsScreen";
-import RsvpScreen from "@/components/RsvpScreen";
+import HeroSection from "@/components/HeroSection";
+import CountdownTimer from "@/components/CountdownTimer";
+import OurStory from "@/components/OurStory";
+import EventDetailsSection from "@/components/EventDetailsSection";
+import RsvpSection from "@/components/RsvpSection";
+import PhotoGallery from "@/components/PhotoGallery";
+import WeddingFooter from "@/components/WeddingFooter";
+import LanguageToggle from "@/components/LanguageToggle";
 import ProgressBar from "@/components/ProgressBar";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 const Index = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,34 +40,30 @@ const Index = () => {
   }, [showContent]);
 
   return (
-    <div className="paper-grain">
-      {!isOpen && <SplashScreen onOpen={handleOpen} />}
+    <LanguageProvider>
+      <div className="paper-grain">
+        {!isOpen && <SplashScreen onOpen={handleOpen} />}
 
-
-      {showContent && (
-        <>
-          <ProgressBar progress={scrollProgress} />
-          <div
-            ref={contentRef}
-            className="h-screen overflow-y-auto scroll-smooth animate-content-reveal"
-          >
-            <AnnouncementScreen />
-            <EventDetailsScreen />
-            <RsvpScreen />
-
-            {/* Footer */}
-            <div className="py-12 text-center">
-              <p
-                className="font-body uppercase text-taupe"
-                style={{ fontSize: 9, letterSpacing: "0.3em" }}
-              >
-                Made with love
-              </p>
+        {showContent && (
+          <>
+            <ProgressBar progress={scrollProgress} />
+            <LanguageToggle />
+            <div
+              ref={contentRef}
+              className="h-screen overflow-y-auto scroll-smooth animate-content-reveal"
+            >
+              <HeroSection />
+              <CountdownTimer />
+              <OurStory />
+              <EventDetailsSection />
+              <RsvpSection />
+              <PhotoGallery />
+              <WeddingFooter />
             </div>
-          </div>
-        </>
-      )}
-    </div>
+          </>
+        )}
+      </div>
+    </LanguageProvider>
   );
 };
 
