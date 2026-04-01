@@ -20,7 +20,7 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
     }, 3200);
   };
 
-  // More realistic pointed flap with visible fold lines
+  // Triangular flap shape — pointed bottom
   const flapPath = "M0,0 L100,0 L52,42 Q50,45 48,42 L0,0 Z";
 
   return (
@@ -48,7 +48,6 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
             backgroundImage: `url(${envelopeTexture})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
-            border: "1px solid hsl(30, 18%, 82%)",
             borderRadius: "4px",
           }}
         />
@@ -64,23 +63,22 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
             borderRadius: "2px",
             background: "hsl(var(--background))",
             boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
-            border: "1px solid hsl(30, 18%, 88%)",
           }}
         >
-          {/* Decorative content hint on the letter */}
           <div className="flex flex-col items-center justify-center h-full opacity-60 px-4">
             <div className="w-12 h-[1px] bg-muted-foreground/30 mb-3" />
-            <p className="font-display text-muted-foreground/50 text-sm tracking-[0.2em] italic">
+            <p className="text-muted-foreground/50 text-sm tracking-[0.2em] italic" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               You're Invited
             </p>
             <div className="w-12 h-[1px] bg-muted-foreground/30 mt-3" />
           </div>
         </div>
 
-        {/* TOP FLAP */}
+        {/* TOP FLAP — separated triangle with visible edge */}
         <div
-          className="absolute top-0 left-0 right-0 z-[6]"
+          className="absolute left-0 right-0 z-[6]"
           style={{
+            top: "-1px",
             height: "55%",
             perspective: "800px",
           }}
@@ -94,30 +92,28 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
               transformStyle: "preserve-3d",
             }}
           >
-            {/* Flap front */}
+            {/* Flap front face */}
             <div className="absolute inset-0" style={{ backfaceVisibility: "hidden" }}>
-              <svg viewBox="0 0 100 55" preserveAspectRatio="none" className="absolute inset-0 w-full h-full">
+              <svg viewBox="0 0 100 55" preserveAspectRatio="none" className="absolute inset-0 w-full h-full" style={{ filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.08))" }}>
                 <defs>
                   <pattern id="flapTex" patternUnits="objectBoundingBox" width="1" height="1">
                     <image href={envelopeTexture} width="100%" height="100%" preserveAspectRatio="xMidYMid slice" />
                   </pattern>
                 </defs>
+                {/* Main flap shape with texture */}
                 <path d={flapPath} fill="url(#flapTex)" />
-                {/* Subtle overlay for depth */}
-                <path d={flapPath} fill="hsl(34, 20%, 78%)" opacity="0.06" />
-                {/* Visible fold lines on the triangle */}
-                <line x1="0" y1="0" x2="48" y2="42" stroke="hsl(30, 15%, 72%)" strokeWidth="0.4" opacity="0.6" />
-                <line x1="100" y1="0" x2="52" y2="42" stroke="hsl(30, 15%, 72%)" strokeWidth="0.4" opacity="0.6" />
-                <line x1="0" y1="0" x2="100" y2="0" stroke="hsl(30, 15%, 72%)" strokeWidth="0.3" opacity="0.4" />
+                {/* Separated edge — visible border stroke on the triangle */}
+                <path d="M0,0 L48,42 Q50,45 52,42 L100,0" fill="none" stroke="hsl(30, 18%, 68%)" strokeWidth="0.6" />
+                {/* Top edge line */}
+                <line x1="0" y1="0.3" x2="100" y2="0.3" stroke="hsl(30, 18%, 72%)" strokeWidth="0.4" />
               </svg>
             </div>
 
-            {/* Flap back (lighter inside) */}
+            {/* Flap back face (lighter inside) */}
             <div className="absolute inset-0" style={{ backfaceVisibility: "hidden", transform: "rotateX(180deg)" }}>
               <svg viewBox="0 0 100 55" preserveAspectRatio="none" className="absolute inset-0 w-full h-full">
-                <path d={flapPath} fill="hsl(34, 22%, 88%)" />
-                <line x1="0" y1="0" x2="48" y2="42" stroke="hsl(30, 15%, 78%)" strokeWidth="0.3" opacity="0.4" />
-                <line x1="100" y1="0" x2="52" y2="42" stroke="hsl(30, 15%, 78%)" strokeWidth="0.3" opacity="0.4" />
+                <path d={flapPath} fill="hsl(34, 22%, 90%)" />
+                <path d="M0,0 L48,42 Q50,45 52,42 L100,0" fill="none" stroke="hsl(30, 15%, 80%)" strokeWidth="0.4" />
               </svg>
             </div>
           </div>
@@ -142,12 +138,12 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
         </div>
       </div>
 
-      {/* "Touch to open" below envelope */}
+      {/* "Touch to open" hint */}
       <p
-        className={`absolute left-1/2 -translate-x-1/2 z-[10] font-display italic tracking-[0.3em] text-taupe animate-pulse-fade select-none ${
+        className={`absolute left-1/2 -translate-x-1/2 z-[10] italic tracking-[0.3em] text-taupe animate-pulse-fade select-none ${
           phase !== "idle" ? "opacity-0 transition-opacity duration-500" : ""
         }`}
-        style={{ fontSize: 13, bottom: "calc(50% - min(55vw, 280px)/2 - 48px)" }}
+        style={{ fontSize: 13, fontFamily: "'Cormorant Garamond', serif", bottom: "calc(50% - min(55vw, 280px)/2 - 48px)" }}
       >
         touch to open
       </p>
