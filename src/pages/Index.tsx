@@ -19,7 +19,7 @@ const Index = () => {
 
   const handleOpen = () => {
     setShowContent(true);
-    setTimeout(() => setIsOpen(true), 1200);
+    setTimeout(() => setIsOpen(true), 1000);
   };
 
   useEffect(() => {
