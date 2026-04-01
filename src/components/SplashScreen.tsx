@@ -52,25 +52,31 @@ const SplashScreen = ({ onOpen }: SplashScreenProps) => {
           }}
         />
 
-        {/* Inner card / letter that rises up */}
+        {/* Clipping container for the letter — keeps it hidden inside envelope */}
         <div
-          className={`absolute left-[8%] right-[8%] z-[3] ${
-            phase === "reveal" || phase === "fading" ? "envelope-letter-rise" : ""
-          }`}
-          style={{
-            top: "10%",
-            bottom: "8%",
-            borderRadius: "2px",
-            background: "hsl(var(--background))",
-            boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
-          }}
+          className="absolute inset-0 z-[3]"
+          style={{ overflow: "hidden", borderRadius: "4px" }}
         >
-          <div className="flex flex-col items-center justify-center h-full opacity-60 px-4">
-            <div className="w-12 h-[1px] bg-muted-foreground/30 mb-3" />
-            <p className="text-muted-foreground/50 text-sm tracking-[0.2em] italic" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-              You're Invited
-            </p>
-            <div className="w-12 h-[1px] bg-muted-foreground/30 mt-3" />
+          <div
+            className={`absolute left-[8%] right-[8%] ${
+              phase === "reveal" || phase === "fading" ? "envelope-letter-rise" : ""
+            }`}
+            style={{
+              top: "15%",
+              height: "85%",
+              borderRadius: "2px",
+              background: "hsl(var(--background))",
+              boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
+              transform: "translateY(0)",
+            }}
+          >
+            <div className="flex flex-col items-center justify-center h-full opacity-60 px-4">
+              <div className="w-12 h-[1px] bg-muted-foreground/30 mb-3" />
+              <p className="text-muted-foreground/50 text-sm tracking-[0.2em] italic" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                You're Invited
+              </p>
+              <div className="w-12 h-[1px] bg-muted-foreground/30 mt-3" />
+            </div>
           </div>
         </div>
 
